@@ -59,13 +59,21 @@ os.mkdir(newDir)
 copyTree = getFilesInPath(path,fileType,False)
 
 print("Copying Files:")
+copied = 0
+failed = 0
 for c in copyTree:
     try:
         nameArr = str(c).split("/")
         name = nameArr[len(nameArr)-1]
         shutil.copy(str(c),newDir+"/"+name)
         print(name)
+        copied += 1
     except:
         traceback.print_exc()
+        copied -= 1
+        failed += 1
 
-print("done")
+print("Done")
+print("Copied: " + copied)
+if failed > 0:
+    print("Failed: " + failed)
