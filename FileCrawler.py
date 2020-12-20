@@ -74,6 +74,6 @@ for c in copyTree:
         failed += 1
 
 print("Done")
-print("Copied: " + copied)
+print("Copied: " + str(copied))
 if failed > 0:
-    print("Failed: " + failed)
+    print("Failed: " + str(failed))
