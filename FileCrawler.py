@@ -18,10 +18,21 @@ def extendToFullPath(path):
     os.chdir(currPath)
     return newPath
 
+def helpMessage(err=""):
+    if err != "":
+        print(err)
+    else:
+        print("\nFileCrawler can be executed with: ")
+    print("(python) FileCrawler(.py)")
+    print("(python) FileCrawler(.py) -p PATH -t TYPE -o OUTPUT  -> omit python and .py if executable")
+    print("Example: python FileCrawler.py -p ~/Documents -t pdf -o Docs")
+    print("Note: -p, -t and -o are optional. Default values are: -p -> ./; -t pdf,epub,azw3; -o  \"CrawledFiles\"")
+    
+
 # Default Values
 newDir = "CrawledFiles"
-path = None
-fileType = None
+path = "./"
+fileType = ["pdf","epub","azw3"]
 
 print("Running FileCrawler Script\n")
 args = sys.argv[1:]
@@ -31,17 +42,20 @@ while i < len(args):
     if args[i] == "-p" or args[i] == "-path":
         path = args[i+1]
     elif args[i] == "-t" or args[i] == "-type":
-        fileType = "*." + args[i+1]
+        args[i+1] = args[i+1].replace(" ", "")
+        fileType = args[i+1].split(",")
+        #fileType = "*." + args[i+1]
     elif args[i] == "-o" or args[i] == "-out":
         newDir = args[i+1]
     
     i += 1
 
+for f in fileType:
+    f = "*." + f
+    
 if path is None or fileType is None:
-    print("Path or fileType argument missing. Please execute the script as follows:")
-    print("python FileCrawler.py -p PATH -t TYPE -o OUTPUT")
-    print("Example: python FileCrawler.py -p ~/Documents -t pdf -o Docs")
-    print("Note: -o is optional. Default directory is \"CrawledFiles\"")
+    #print()
+    helpMessage("Path or fileType argument missing. Please execute the script as follows:")
     sys.exit()
     
 
